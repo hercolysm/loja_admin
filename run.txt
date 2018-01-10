@@ -1,0 +1,4 @@
+sudo chmod 777 -R storage/logs/laravel.log
+chmod 647 -R storage/framework/sessions/
+chmod 647 -R storage/framework/views/
+php artisan db:seed
