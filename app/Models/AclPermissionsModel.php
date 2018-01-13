@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AclRolesModel extends Model
+class AclPermissionsModel extends Model
 {
     /**
      * The table associated with the Model.
      *
      * @var string
      */
-    protected $table = 'acl_roles';
+    protected $table = 'acl_permissions';
 
     /**
      * Primary key of the table.

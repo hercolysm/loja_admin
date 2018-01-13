@@ -19,6 +19,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/acl', 'AclController@index');
+Route::get('/roles', 'AclController@roles');
 
-Route::get('/acl/create', 'AclController@create');
+Route::get('/roles/create_roles', 'AclController@create_roles');
+
+Route::get('/roles/edit_roles/{id_role}', 'AclController@edit_roles');
+
+Route::post('/roles/store_roles', 'AclController@store_roles');
+
+Route::get('/permissions', 'AclController@permissions');
+
+Route::get('/permissions/create_permissions', 'AclController@create_permissions');
+
+Route::post('/permissions/store_permissions', 'AclController@store_permissions');

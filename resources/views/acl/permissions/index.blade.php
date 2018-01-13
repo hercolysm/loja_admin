@@ -5,28 +5,29 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Roles</div>
+                <div class="panel-heading">Permissions</div>
 
                 <div class="panel-body">
-                    <p class="pull-left">Total {{ $acl_roles->total() }}</p>
+                    <p class="pull-left">Total {{ $acl_permissions->total() }}</p>
                     <div class="pull-right">
-                        <a href="{{ url('/roles/create_roles') }}" class="btn btn-primary btn-xs">Add Role</a>
+                        <a href="{{ url('/permissions/create_permissions') }}" class="btn btn-primary btn-xs">Add Role</a>
                     </div>
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>id</th>
                                 <th>name</th>
-                                <th colspan="2">label</th>
+                                <th>label</th>
+                                <th>group</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($acl_roles as $role)
+                            @forelse ($acl_permissions as $permission)
                                 <tr>
-                                    <td>{{ $role->id }}</td>
-                                    <td>{{ $role->name }}</td>
-                                    <td>{{ $role->label }}</td>
-                                    <td><a href="{{ url('/roles/edit_roles/' . $role->id) }}">Editar</a></td>
+                                    <td>{{ $permission->id }}</td>
+                                    <td>{{ $permission->name }}</td>
+                                    <td>{{ $permission->label }}</td>
+                                    <td>{{ $permission->group }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -35,7 +36,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <center>{{ $acl_roles->links() }}</center>
+                    <center>{{ $acl_permissions->links() }}</center>
                 </div>
             </div>
         </div>

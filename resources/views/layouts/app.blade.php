@@ -53,7 +53,10 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ url('/acl') }}">ACL</a>
+                                        <a href="{{ url('/roles') }}">Roles</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('/permissions') }}">Permissions</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"

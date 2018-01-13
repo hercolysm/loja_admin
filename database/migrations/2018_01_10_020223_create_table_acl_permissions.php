@@ -17,6 +17,7 @@ class CreateTableAclPermissions extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('label');
+            $table->string('group');
         });
     }
 
