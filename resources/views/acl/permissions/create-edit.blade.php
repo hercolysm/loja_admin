@@ -8,7 +8,7 @@
                 <div class="panel-heading">Add Permission</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ url('/permissions/store_permissions') }}">
+                    <form class="form-horizontal" method="POST" action="{{ url('/permissions/store') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

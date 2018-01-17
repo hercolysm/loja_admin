@@ -18,8 +18,8 @@ class CreateTableAclRolesPermissions extends Migration
             $table->integer('role_id')->unsigned();
             $table->integer('permission_id')->unsigned();
             $table->index(['role_id', 'permission_id']);
-            $table->foreign('role_id')->references('id')->on('acl_roles');
-            $table->foreign('permission_id')->references('id')->on('acl_permissions');
+            $table->foreign('role_id')->references('id')->on('acl_roles')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('acl_permissions')->onDelete('cascade');
         });
     }
 

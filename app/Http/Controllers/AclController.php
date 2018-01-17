@@ -18,7 +18,8 @@ class AclController extends Controller
     }
 
     public function create_roles () {
-        $tabs = ['perfis' => 'Perfis', 'produtos' => 'Produtos', 'usuarios' => 'Usuários'];
+        //$tabs = ['perfis' => 'Perfis', 'produtos' => 'Produtos', 'usuarios' => 'Usuários'];
+        $tabs = AclPermissionsModel::selectRaw('count(id), `group`')->groupBy('group')->get();
         $Acl = new Acl();
         return view('acl.roles.create-edit', ['tabs' => $tabs, 'Acl' => $Acl]);
     }
@@ -31,22 +32,48 @@ class AclController extends Controller
     }
 
     public function store_roles (Request $request) {
-    	$AclRole = new AclRolesModel();
-    	$AclRole->name = $request->name;
-    	$AclRole->label = $request->label;
-    	$AclRole->save();
+    	if ($request->id_role) {
+            $id_role = self::update_role($request);
+        } else {
+            $id_role = self::insert_role($request);
+        }
+
+        $old_permissions = AclRolesPermissionsModel::where('role_id', $id_role);
+        $old_permissions->delete();
 
         $permissions = $request->permissions;
         if (is_array($permissions)) {
             foreach ($permissions as $key => $permission_id) {
                 $AclRolesPermission = new AclRolesPermissionsModel();
-                $AclRolesPermission->role_id = $AclRole->id;
+                $AclRolesPermission->role_id = $id_role;
                 $AclRolesPermission->permission_id = $permission_id;
                 $AclRolesPermission->save();
             }
         }
         
     	return redirect('/roles');
+    }
+
+    public function destroy_roles ($id_role) {
+        AclRolesModel::find($id_role)->delete();
+
+        return redirect('/roles');
+    }
+
+    private static function insert_role (Request $request) {
+        $AclRole = new AclRolesModel();
+        $AclRole->name = $request->name;
+        $AclRole->label = $request->label;
+        $AclRole->save();
+        return $AclRole->id;
+    }
+
+    private static function update_role (Request $request) {
+        $AclRole = AclRolesModel::find($request->id_role);
+        $AclRole->name = $request->name;
+        $AclRole->label = $request->label;
+        $AclRole->save();
+        return $AclRole->id;
     }
 
     public function permissions () {
@@ -68,4 +95,5 @@ class AclController extends Controller
         $AclPermission->save();
         return redirect('/permissions');
     }
+
 }

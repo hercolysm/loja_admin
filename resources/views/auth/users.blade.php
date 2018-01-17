@@ -5,29 +5,34 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Permissions</div>
+                <div class="panel-heading">Users</div>
 
                 <div class="panel-body">
-                    <p class="pull-left">Total {{ $acl_permissions->total() }}</p>
+                    <p class="pull-left">Total {{ $users->total() }}</p>
                     <div class="pull-right">
-                        <a href="{{ url('/permissions/create') }}" class="btn btn-primary btn-xs">Add Permission</a>
+                        <a href="{{ url('/users/create') }}" class="btn btn-primary btn-xs">Add User</a>
                     </div>
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>id</th>
                                 <th>name</th>
-                                <th>label</th>
-                                <th>group</th>
+                                <th>email</th>
+                                <th>role</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($acl_permissions as $permission)
+                            @forelse ($users as $user)
                                 <tr>
-                                    <td>{{ $permission->id }}</td>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->label }}</td>
-                                    <td>{{ $permission->group }}</td>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $Acl::getRole($user->id, 'label') }}</td>
+                                    <td>
+                                        <a href="{{ url('/users/edit/' . $user->id) }}">Editar</a>
+                                        <a href="{{ url('/users/destroy/' . $user->id) }}">Excluir</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
@@ -36,7 +41,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <center>{{ $acl_permissions->links() }}</center>
+                    <center>{{ $users->links() }}</center>
                 </div>
             </div>
         </div>

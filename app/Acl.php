@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\AclPermissionsModel;
 use App\Models\AclRolesPermissionsModel;
+use App\Models\AclUsersRolesModel;
 
 class Acl {
 
@@ -33,4 +35,13 @@ class Acl {
 		])->count();
 		return ($verify == 1) ? true : false;
 	}
+
+	public static function getRole ($id_user, $col = 'label') {
+        $roles = DB::table('acl_users_roles')
+					->join('acl_roles', 'acl_users_roles.role_id', '=', 'acl_roles.id')
+					->select('acl_users_roles.user_id', 'acl_users_roles.role_id', 'acl_roles.name', 'acl_roles.label')
+					->where('acl_users_roles.user_id', $id_user)
+					->first();
+		return isset($roles->$col) ? $roles->$col : '';
+    }
 }
