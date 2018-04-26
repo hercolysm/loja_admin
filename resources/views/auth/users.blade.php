@@ -36,7 +36,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">It's empty yet!</td>
+                                    <td colspan="5">It's empty yet!</td>
                                 </tr>
                             @endforelse
                         </tbody>

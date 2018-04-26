@@ -44,4 +44,5 @@ class Acl {
 					->first();
 		return isset($roles->$col) ? $roles->$col : '';
     }
+    
 }

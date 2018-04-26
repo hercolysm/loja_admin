@@ -8,24 +8,29 @@ use App\Acl;
 use App\Models\AclRolesModel;
 use App\Models\AclPermissionsModel;
 use App\Models\AclRolesPermissionsModel;
+use Gate;
 
 class AclController extends Controller
 {
     public function roles () {
+
+        if (Gate::denies('visualizar_perfis'))
+            //return redirect()->back();
+            abort(403, "Not Permission View Roles");
+
     	$acl_roles = AclRolesModel::paginate(10);;
 
     	return view('acl.roles.index', ['acl_roles' => $acl_roles]);
     }
 
     public function create_roles () {
-        //$tabs = ['perfis' => 'Perfis', 'produtos' => 'Produtos', 'usuarios' => 'Usuários'];
         $tabs = AclPermissionsModel::selectRaw('count(id), `group`')->groupBy('group')->get();
         $Acl = new Acl();
         return view('acl.roles.create-edit', ['tabs' => $tabs, 'Acl' => $Acl]);
     }
 
     public function edit_roles ($id_role) {
-        $tabs = ['perfis' => 'Perfis', 'produtos' => 'Produtos', 'usuarios' => 'Usuários'];
+        $tabs = AclPermissionsModel::selectRaw('count(id), `group`')->groupBy('group')->get();
         $Acl = new Acl();
         $roles = AclRolesModel::find($id_role);
         return view('acl.roles.create-edit', ['tabs' => $tabs, 'Acl' => $Acl, 'roles' => $roles]);

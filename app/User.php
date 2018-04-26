@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\AclPermissionsModel;
+use App\Mmmodels\AclRolesModel;
 
 class User extends Authenticatable
 {
@@ -26,4 +28,29 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function roles ()
+    {
+        return $this->belongsToMany(\App\Models\AclRolesModel::class, 'acl_users_roles', 'role_id', 'user_id');
+    }
+
+    public function hasPermission (AclPermissionsModel $permission)
+    {
+        return $this->hasAnyRoles($permission->roles);
+    }
+
+    public function hasAnyRoles ($roles)
+    {
+        if (is_array($roles) || is_object($roles)) {
+            foreach ($roles as $key => $role) {
+                //$this->hasAnyRoles($role);
+                return $this->roles->contains('name', $role->name);
+            }
+        }
+        return $this->roles->contains('name', $roles);
+    }
+
+    public function isSuperAdmin () {
+        return !!$this->admin;
+    }
 }

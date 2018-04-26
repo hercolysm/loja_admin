@@ -11,14 +11,21 @@ use App\Models\AclPermissionsModel;
 use App\Models\AclRolesPermissionsModel;
 use App\Models\AclUsersRolesModel;
 use App\Models\UsersModel;
-
+use Gate;
 
 class UsersController extends Controller
 {
     public function users () {
+
+        //Acl::verifyPermission('visualizar_usuarios');
+
+        if (Gate::denies('visualizar_usuarios'))
+            abort(403, "Not Permission View Users");
+
     	$users = UsersModel::where('admin', 0)->paginate(10);;
     	$roles = AclRolesModel::get();
         $Acl = new Acl();
+
     	return view('auth.users', ['users' => $users, 'roles' => $roles, 'Acl' => $Acl]);
     }
 

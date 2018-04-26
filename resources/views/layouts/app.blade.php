@@ -51,15 +51,21 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ url('/users') }}">Users</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/roles') }}">Roles</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/permissions') }}">Permissions</a>
-                                    </li>
+                                    @can ('visualizar_usuarios')
+                                        <li>
+                                            <a href="{{ url('/users') }}">Users</a>
+                                        </li>
+                                    @endcan
+                                    @can ('visualizar_perfis')
+                                        <li>
+                                            <a href="{{ url('/roles') }}">Roles</a>
+                                        </li>
+                                    @endcan
+                                    @if (Auth::user()->isSuperAdmin())
+                                        <li>
+                                            <a href="{{ url('/permissions') }}">Permissions</a>
+                                        </li>
+                                    @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
