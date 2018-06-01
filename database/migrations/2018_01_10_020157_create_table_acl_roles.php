@@ -13,9 +13,10 @@ class CreateTableAclRoles extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('acl_roles');
         Schema::create('acl_roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 50);
             $table->text('label');
         });
     }

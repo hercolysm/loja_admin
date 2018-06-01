@@ -17,7 +17,7 @@ class Acl {
 	 */
 	public static function getPermissionsGroup(string $grupo)
 	{
-		return AclPermissionsModel::where('group', $grupo)->get();
+		return AclPermissionsModel::where('group', $grupo)->orderby('name')->get();
 	}
 
 	/**
@@ -36,10 +36,10 @@ class Acl {
 		return ($verify == 1) ? true : false;
 	}
 
-	public static function getRole ($id_user, $col = 'label') {
+    public static function getRoles ($id_user, $col = 'label') {
         $roles = DB::table('acl_users_roles')
 					->join('acl_roles', 'acl_users_roles.role_id', '=', 'acl_roles.id')
-					->select('acl_users_roles.user_id', 'acl_users_roles.role_id', 'acl_roles.name', 'acl_roles.label')
+					->select(DB::raw('GROUP_CONCAT('.$col.') as '.$col))
 					->where('acl_users_roles.user_id', $id_user)
 					->first();
 		return isset($roles->$col) ? $roles->$col : '';

@@ -28,14 +28,17 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        // busca todas as permissoes e as roles que possuem elas
-        $acl_permissions = AclPermissionsModel::with('roles')->get();
+        if ($_SERVER['PHP_SELF'] != 'artisan') {
 
-        foreach ($acl_permissions as $permission) {
-            // cria permissoes
-            $gate->define($permission->name, function(User $user) use ($permission) {
-                return $user->hasPermission($permission);
-            });
+            // busca todas as permissoes e as roles que possuem elas
+            $acl_permissions = AclPermissionsModel::with('roles')->get();
+
+            foreach ($acl_permissions as $permission) {
+                // cria permissoes
+                $gate->define($permission->name, function(User $user) use ($permission) {
+                    return $user->hasPermission($permission);
+                });
+            }
         }
 
         $gate->before(function(User $user) {

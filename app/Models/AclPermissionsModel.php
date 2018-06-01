@@ -34,6 +34,6 @@ class AclPermissionsModel extends Model
      */
     public function roles ()
     {
-        return $this->belongsToMany(\App\Models\AclRolesModel::class, 'acl_roles_permissions', 'role_id', 'permission_id');
+        return $this->belongsToMany(\App\Models\AclRolesModel::class, 'acl_roles_permissions', 'permission_id', 'role_id');
     }
 }

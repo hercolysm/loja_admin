@@ -10,7 +10,9 @@
                 <div class="panel-body">
                     <p class="pull-left">Total {{ $users->total() }}</p>
                     <div class="pull-right">
-                        <a href="{{ url('/users/create') }}" class="btn btn-primary btn-xs">Add User</a>
+                        @can ('adicionar_usuarios')
+                            <a href="{{ url('/users/create') }}" class="btn btn-primary btn-xs">Add User</a>
+                        @endcan
                     </div>
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -18,7 +20,7 @@
                                 <th>id</th>
                                 <th>name</th>
                                 <th>email</th>
-                                <th>role</th>
+                                <th>roles</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -28,10 +30,14 @@
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $Acl::getRole($user->id, 'label') }}</td>
+                                    <td>{{ str_replace(',', ', ', $Acl::getRoles($user->id, 'name')) }}</td>
                                     <td>
-                                        <a href="{{ url('/users/edit/' . $user->id) }}">Editar</a>
-                                        <a href="{{ url('/users/destroy/' . $user->id) }}">Excluir</a>
+                                        @can ('editar_usuarios')
+                                            <a href="{{ url('/users/edit/' . $user->id) }}">Editar</a>
+                                        @endcan
+                                        @can ('excluir_usuarios')
+                                            <a href="{{ url('/users/destroy/' . $user->id) }}">Excluir</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty

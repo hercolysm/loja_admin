@@ -20,7 +20,8 @@ class UsersController extends Controller
         //Acl::verifyPermission('visualizar_usuarios');
 
         if (Gate::denies('visualizar_usuarios'))
-            abort(403, "Not Permission View Users");
+            //abort(403, "Not Permission View Users");
+            return redirect('/');
 
     	$users = UsersModel::where('admin', 0)->paginate(10);;
     	$roles = AclRolesModel::get();
@@ -31,14 +32,15 @@ class UsersController extends Controller
 
     public function create () {
     	$roles = AclRolesModel::get();
-        return view('auth.register', ['roles' => $roles]);
+        return view('auth.register', ['user_roles' => [], 'roles' => $roles]);
     }
 
     public function edit ($id_user) {
         $user = UsersModel::find($id_user);
-        $role_id = Acl::getRole($id_user, 'role_id');
+        $user_roles = Acl::getRoles($id_user, 'role_id');
+        $user_roles = explode(',', $user_roles);
         $roles = AclRolesModel::get();
-        return view('auth.register', ['user' => $user, 'role_id' => $role_id, 'roles' => $roles]);
+        return view('auth.register', ['user' => $user, 'user_roles' => $user_roles, 'roles' => $roles]);
     }
 
     public function store (Request $request) {
@@ -50,12 +52,18 @@ class UsersController extends Controller
 
         $old_roles = AclUsersRolesModel::where('user_id', $id_user);
         $old_roles->delete();
+        
+        $new_roles = isset($request->roles) ? array_filter($request->roles) : null;
 
-        if ($request->roles) {
-            $AclUsersRoles = new AclUsersRolesModel();
-            $AclUsersRoles->user_id = $id_user;
-            $AclUsersRoles->role_id = $request->roles;
-            $AclUsersRoles->save();
+        if (!empty($new_roles)) {
+
+            foreach ($new_roles as $role_id) {
+
+                $AclUsersRoles = new AclUsersRolesModel();
+                $AclUsersRoles->user_id = $id_user;
+                $AclUsersRoles->role_id = $role_id;
+                $AclUsersRoles->save();
+            }
         }
 
         return redirect('/users');

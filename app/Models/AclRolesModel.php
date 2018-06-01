@@ -26,4 +26,14 @@ class AclRolesModel extends Model
      * @var bool
      */
     public $timestamps = false;
+
+     /**
+     * Retorna permissions
+     *
+     *
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(\App\Models\AclPermissionsModel::class, 'acl_roles_permissions', 'role_id', 'permission_id');
+    }
 }

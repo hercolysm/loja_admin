@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     public function roles ()
     {
-        return $this->belongsToMany(\App\Models\AclRolesModel::class, 'acl_users_roles', 'role_id', 'user_id');
+        return $this->belongsToMany(\App\Models\AclRolesModel::class, 'acl_users_roles', 'user_id', 'role_id');
     }
 
     public function hasPermission (AclPermissionsModel $permission)
@@ -42,10 +42,7 @@ class User extends Authenticatable
     public function hasAnyRoles ($roles)
     {
         if (is_array($roles) || is_object($roles)) {
-            foreach ($roles as $key => $role) {
-                //$this->hasAnyRoles($role);
-                return $this->roles->contains('name', $role->name);
-            }
+            return !! $roles->intersect($this->roles)->count();
         }
         return $this->roles->contains('name', $roles);
     }

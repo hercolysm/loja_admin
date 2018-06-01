@@ -13,6 +13,7 @@ class CreateTableAclRolesPermissions extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('acl_roles_permissions');
         Schema::create('acl_roles_permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('role_id')->unsigned();

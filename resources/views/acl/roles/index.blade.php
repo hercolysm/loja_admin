@@ -10,7 +10,9 @@
                 <div class="panel-body">
                     <p class="pull-left">Total {{ $acl_roles->total() }}</p>
                     <div class="pull-right">
-                        <a href="{{ url('/roles/create') }}" class="btn btn-primary btn-xs">Add Role</a>
+                        @can ('adicionar_perfis')
+                            <a href="{{ url('/roles/create') }}" class="btn btn-primary btn-xs">Add Role</a>
+                        @endcan
                     </div>
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -27,8 +29,12 @@
                                     <td>{{ $role->name }}</td>
                                     <td>{{ $role->label }}</td>
                                     <td>
-                                        <a href="{{ url('/roles/edit/' . $role->id) }}">Editar</a>
-                                        <a href="{{ url('/roles/destroy/' . $role->id) }}">Excluir</a>
+                                        @can ('editar_perfis')
+                                            <a href="{{ url('/roles/edit/' . $role->id) }}">Editar</a>
+                                        @endcan
+                                        @can ('excluir_perfis')
+                                            <a href="{{ url('/roles/destroy/' . $role->id) }}">Excluir</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty

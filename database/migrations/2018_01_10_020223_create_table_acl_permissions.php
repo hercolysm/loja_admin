@@ -13,11 +13,12 @@ class CreateTableAclPermissions extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('acl_permissions');
         Schema::create('acl_permissions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 50);
             $table->text('label');
-            $table->string('group');
+            $table->string('group', 50);
         });
     }
 

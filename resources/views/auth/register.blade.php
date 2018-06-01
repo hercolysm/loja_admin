@@ -63,13 +63,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="roles" class="col-md-4 control-label">Role</label>
+                            <label for="roles" class="col-md-4 control-label">Roles</label>
                             
                             <div class="col-md-6">
-                                <select id="roles" name="roles" class="form-control">
+                                <select id="roles" name="roles[]" class="form-control" multiple="">
                                     <option></option>
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}" {{ ($role->id == $role_id) ? 'selected="selected"' : '' }} >{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}" {{ (in_array($role->id, $user_roles) == true) ? 'selected="selected"' : '' }} >{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
