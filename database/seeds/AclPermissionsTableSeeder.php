@@ -14,6 +14,7 @@ class AclPermissionsTableSeeder extends Seeder
     public function run()
     {
         $defaults_permissions = [
+            ['name'=>'visualizar_auditoria', 'label'=>'Visualizar Auditoria', 'group'=>'auditoria'],
         	['name'=>'visualizar_usuarios', 'label'=>'Visualizar Usuários', 'group'=>'usuarios'],
 			['name'=>'adicionar_usuarios', 'label'=>'Adicionar Usuários', 'group'=>'usuarios'],
             ['name'=>'editar_usuarios', 'label'=>'Editar Usuários', 'group'=>'usuarios'],

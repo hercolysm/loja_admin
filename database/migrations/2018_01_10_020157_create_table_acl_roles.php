@@ -18,6 +18,7 @@ class CreateTableAclRoles extends Migration
             $table->increments('id');
             $table->string('name', 50);
             $table->text('label');
+            $table->timestamps();
         });
     }
 

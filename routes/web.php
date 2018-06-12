@@ -50,3 +50,5 @@ Route::get('/users/edit/{id_user}', 'UsersController@edit');
 Route::post('/users/store', 'UsersController@store');
 
 Route::get('/users/destroy/{id_user}', 'UsersController@destroy');
+
+Route::get('/audit', 'AclController@audit');

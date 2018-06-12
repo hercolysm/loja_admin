@@ -25,7 +25,7 @@ class AclPermissionsModel extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * Retorna roles

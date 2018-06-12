@@ -61,11 +61,20 @@
                                             <a href="{{ url('/roles') }}">Roles</a>
                                         </li>
                                     @endcan
+                                    @if (Auth::user()->isSuperAdmin() || Gate::check('visualizar_auditoria'))
+                                        <li role="separator" class="divider"></li>
+                                    @endif
                                     @if (Auth::user()->isSuperAdmin())
                                         <li>
                                             <a href="{{ url('/permissions') }}">Permissions</a>
                                         </li>
                                     @endif
+                                    @can ('visualizar_auditoria')
+                                        <li>
+                                            <a href="{{ url('/audit') }}">Audit</a>
+                                        </li>
+                                    @endcan
+                                    <li role="separator" class="divider"></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -90,5 +99,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('script')
 </body>
 </html>

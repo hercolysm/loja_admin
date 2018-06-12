@@ -19,6 +19,7 @@ class CreateTableAclPermissions extends Migration
             $table->string('name', 50);
             $table->text('label');
             $table->string('group', 50);
+            $table->timestamps();
         });
     }
 

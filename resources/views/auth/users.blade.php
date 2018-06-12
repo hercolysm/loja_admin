@@ -21,7 +21,9 @@
                                 <th>name</th>
                                 <th>email</th>
                                 <th>roles</th>
-                                <th></th>
+                                @if(Gate::check('editar_usuarios') || Gate::check('excluir_usuarios'))
+                                    <th></th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -31,14 +33,16 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ str_replace(',', ', ', $Acl::getRoles($user->id, 'name')) }}</td>
-                                    <td>
-                                        @can ('editar_usuarios')
-                                            <a href="{{ url('/users/edit/' . $user->id) }}">Editar</a>
-                                        @endcan
-                                        @can ('excluir_usuarios')
-                                            <a href="{{ url('/users/destroy/' . $user->id) }}">Excluir</a>
-                                        @endcan
-                                    </td>
+                                    @if (Gate::check('editar_usuarios') || Gate::check('excluir_usuarios'))
+                                        <td>
+                                            @can ('editar_usuarios')
+                                                <a href="{{ url('/users/edit/' . $user->id) }}">Editar</a>
+                                            @endcan
+                                            @can ('excluir_usuarios')
+                                                <a href="{{ url('/users/destroy/' . $user->id) }}">Excluir</a>
+                                            @endcan
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>

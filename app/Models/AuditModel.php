@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class AclRolesModel extends Model
+class AuditModel extends Model
 {
-    /**
+     /**
      * The table associated with the Model.
      *
      * @var string
      */
-    protected $table = 'acl_roles';
+    protected $table = 'audit';
 
     /**
      * Primary key of the table.
@@ -26,14 +27,4 @@ class AclRolesModel extends Model
      * @var bool
      */
     public $timestamps = true;
-
-     /**
-     * Retorna permissions
-     *
-     *
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany(\App\Models\AclPermissionsModel::class, 'acl_roles_permissions', 'role_id', 'permission_id');
-    }
 }

@@ -15,10 +15,8 @@ use Gate;
 
 class UsersController extends Controller
 {
-    public function users () {
-
-        //Acl::verifyPermission('visualizar_usuarios');
-
+    public function users () 
+    {
         if (Gate::denies('visualizar_usuarios'))
             //abort(403, "Not Permission View Users");
             return redirect('/');
@@ -30,12 +28,14 @@ class UsersController extends Controller
     	return view('auth.users', ['users' => $users, 'roles' => $roles, 'Acl' => $Acl]);
     }
 
-    public function create () {
+    public function create () 
+    {
     	$roles = AclRolesModel::get();
         return view('auth.register', ['user_roles' => [], 'roles' => $roles]);
     }
 
-    public function edit ($id_user) {
+    public function edit ($id_user) 
+    {
         $user = UsersModel::find($id_user);
         $user_roles = Acl::getRoles($id_user, 'role_id');
         $user_roles = explode(',', $user_roles);
@@ -43,7 +43,8 @@ class UsersController extends Controller
         return view('auth.register', ['user' => $user, 'user_roles' => $user_roles, 'roles' => $roles]);
     }
 
-    public function store (Request $request) {
+    public function store (Request $request) 
+    {
     	if ($request->id_user) {
     		$id_user = self::update_user($request);
     	} else {
@@ -69,7 +70,8 @@ class UsersController extends Controller
         return redirect('/users');
     }
 
-    private static function insert_user (Request $request) {
+    private static function insert_user (Request $request) 
+    {
     	$user = new UsersModel();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -78,7 +80,8 @@ class UsersController extends Controller
         return $user->id;
     }
 
-    private static function update_user (Request $request) {
+    private static function update_user (Request $request) 
+    {
     	$user = UsersModel::find($request->id_user);
     	$user->name = $request->name;
     	$user->email = $request->email;
@@ -89,7 +92,8 @@ class UsersController extends Controller
         return $user->id;
     }
 
-    public function destroy ($id_user) {
+    public function destroy ($id_user) 
+    {
     	$user = UsersModel::find($id_user);
         $user->delete();
 
